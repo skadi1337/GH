@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+  
+    <title>GH DETECTOR</title>
+
+    <link rel="stylesheet" href="./node_modules/ol/ol.css">
+    <link rel="stylesheet" href="./styles.css">
+
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+</head>
+
+<body>
+    
+    <div class="container">
+
+        <div class="map-container">
+          <div id="aerialMap" class="map"></div>
+        </div>
+    
+        <div class="controls-container" id="SettingsSidebar">
+          <div class="form-group">
+            <h3>1. Select Area</h3>
+            <label for="mapProvider" style="margin-top: 0px;">- Change Map View: (use Google maps and Google maps satellite)</label>
+            <select id="mapProvider" name="mapProvider"></select>
+            <p style="margin-top: 10px; margin-bottom: 0px;">- Show coordinates (lat, lon)</p>
+            <input type="text" id="LonLatInput" style="width: 80%;">
+            <button id="LonLatSearch">search</button>
+            <p style="margin: 0;">- Show location</p>
+            <input type="text" id="geoInput" style="width: 80%;">
+            <button id="geoSearch">search</button>
+            
+            <p style="font-size: large; margin-top: 15px;">Hold alt and drag to select area</p>
+          </div>
+    
+          <div class="form-group">
+            <h3>2. Configuration</h3>
+            <label for="mapProviderDownload" style="margin-top: 0px;">Download from: (should be left default)</label>
+            <select id="mapProviderDownload" name="mapProviderDownload">
+            </select>
+            <label for="targetZoom" style="margin-top: 10px;">Target Zoom: (should be 15-18)</label>
+            <input type="text" id="targetZoom" name="targetZoom" value="18">
+            <label for="modelSelect" style="margin-top: 10px;">Model:</label>
+            <select id="modelSelect" name="modelSelect">
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <h3 style="margin-bottom: 15px;">3. Preview</h3>
+            <button id="showGridButton">SHOW GRID</button>
+            <button id="hideGridButton">HIDE GRID</button>
+            <label id="GridLabel"></label>
+            <label id="GridErrorLabel"></label>
+          </div>
+
+          <div class="form-group">
+            <h3 style="margin-bottom: 15px;">4. Download</h3>
+            <button id="downloadButton">DOWNLOAD</button>
+          </div>
+
+        </div>
+
+        <div class="controls-container" id="downloadSidebar" style="display: none;">
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-bar-fill-download"></div>
+          </div>
+          <div id="progress-text-download" class="progress-text"></div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-bar-fill-model"></div>
+          </div>
+          <div class="progress-text" style="display: flex;">
+            <label id="progress-text-model"></label>
+          </div>
+          <div style="display: flex;">
+            <label>Display processing progress as black polygon:</label>
+            <input type="checkbox" id="toggleModelProgress" checked>
+          </div>
+          <div style="padding-bottom: 50px; padding-top: 20px;">
+          <label for="mapProvider2" style="margin-top: 0px;">- Change Map View:</label>
+          <select id="mapProvider2" name="mapProvider2"></select>
+          </div>
+          <button id="cancelDownloadButton">CANCEL</button>
+          <div style="padding-top: 20px;">
+          <label>Downloaded/processed tiles are saved once downloaded/processed.</label>
+          <label>So, When you reload the page or interrupt the processing, you won't have to wait again from the beginning.</label>
+          </div>
+        </div>
+
+        
+    
+      </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>

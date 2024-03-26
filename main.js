@@ -92,6 +92,13 @@ const lonLatSearch = document.getElementById('LonLatSearch');
 const geoInput = document.getElementById('geoInput');
 const geoSearch = document.getElementById('geoSearch');
 
+const clearContoursButton = document.getElementById('clearContoursButton');
+const contourColorSelect = document.getElementById('contourColorSelect');
+const coordinatesLabel = document.getElementById('coordinatesLabel');
+const downloadToLocalDeviceButton = document.getElementById('downloadToLocalDeviceButton');
+
+var cancelLocalDownload = false;
+
 var selected_extent = null;
 
 
@@ -139,8 +146,8 @@ var ContourLayer = new VectorLayer({
     source: new Vector(),
     style: new Style({
         stroke: new Stroke({
-            color: 'green',
-            width: 3
+            color: contourColorSelect.value,
+            width: 1
         }),
         fill: new Fill({
             color: 'rgba(0, 0, 0, 0)'
@@ -188,6 +195,9 @@ map2.addLayer(ContourLayer);
 map2.addLayer(ModelProgressLayer);
 
 
+view.on('change:center', showCoordinates);
+
+
 selection2.on('boxend', function (event) {
     var geometry = selection2.getGeometry();
     var extent = geometry.getExtent();
@@ -218,6 +228,13 @@ selection2.on('boxend', function (event) {
     highlightLayer.getSource().addFeature(feature);
 
 });
+
+showCoordinates();
+function showCoordinates()
+{
+    var center = view.getCenter();
+    coordinatesLabel.innerHTML = '- Map center coodinates: ' + center[1].toFixed(7) + ', ' + center[0].toFixed(7);
+}
 
 setUpModelSelect();
 function setUpModelSelect()
@@ -401,7 +418,13 @@ function showGrid()
     // console.log(yMax);
 
     var xDelta = Math.ceil(Math.abs(xMax - xMin) + 1);
+    if (xDelta % 2 !== 0) {
+        xDelta += 1;
+      }
     var yDelta = Math.ceil(Math.abs(yMax - yMin) + 1);
+    if (yDelta % 2 !== 0) {
+        yDelta += 1;
+      }
     var totalTiles = xDelta * yDelta;
 
     // bot left
@@ -423,7 +446,7 @@ function showGrid()
     var yd = Math.round(olSphere.getDistance(p1, p3) / 1000);
     var totalArea = xd * yd;
 
-    gridLabel.innerHTML = "Total tiles: " + String(totalTiles) + " (" + String(xDelta) + "x" + String(yDelta) + ").<br>Total area (km^2): " + String(totalArea) + " (" + String(yd) + "x" + String(xd)+").";
+    //gridLabel.innerHTML = "Total tiles: " + String(totalTiles) + " (" + String(xDelta) + "x" + String(yDelta) + ").<br>Total area (km^2): " + String(totalArea) + " (" + String(yd) + "x" + String(xd)+").";
 
     const MAX_RENDER_TILES = 65 * 65;
 
@@ -451,7 +474,7 @@ function showGrid()
             yCount += 1;
             xCount = 0;
         }
-        gridErrorLabel.innerHTML = "Warning: Too much tiles to render.<br> 65x65 square was filled in the bottom left corner.<br> Square makes " + String(MAX_RENDER_TILES / xDelta / yDelta * 100) + "% of total area.";
+        gridErrorLabel.innerHTML = "Warning: Too much tiles to render.";
     }
     else
     {
@@ -490,7 +513,7 @@ function drawGridRect(x, y, z)
     GridLayer.getSource().addFeature(feature);
 }
 
-function drawGridRectContours(x, y, z, points)
+function drawGridRectContours(x, y, z, points, newstyle)
 {
 
     var x0 = tile2long(x, z);
@@ -515,9 +538,10 @@ function drawGridRectContours(x, y, z, points)
                 coordinates.push(coordinates[0]);
     
                 var feature = new Feature({
-                    geometry: new Polygon([coordinates])
+                    geometry: new Polygon([coordinates]),
                 });
-    
+                
+                feature.setStyle(newstyle);
                 ContourLayer.getSource().addFeature(feature);
         });
     }
@@ -589,6 +613,115 @@ function drawGridRectContours(x, y, z, points)
 /// --------    DOWNLOAD -------- ///////
 
 
+const downloadToLocalDevice = async () => {
+    
+    if (!selected_extent) {
+        return;
+    }
+    
+    settingsSidebar.style.display = 'none';
+    downloadSidebar.style.display = '';
+    hideGrid();
+    cancelLocalDownload = false;
+    //ContourLayer.getSource().clear();
+    ContourLayer.setVisible(true);
+    ModelProgressLayer.getSource().clear();
+    
+    var pattern = mapProviderDownloadSelect.value;
+    
+    var x0 = selected_extent[0];
+    var y0 = selected_extent[1];
+    var x1 = selected_extent[2];
+    var y1 = selected_extent[3];
+  
+    var z = parseFloat(targetZoomInput.value);
+    var grid = googleSatelliteLayer.getSource().tileGrid;
+  
+    var xMin = long2tile(x0, z);
+    var yMin = lat2tile(y0, z);
+  
+    var xMax = long2tile(x1, z);
+    var yMax = lat2tile(y1, z);
+
+    var xDelta = Math.ceil(Math.abs(xMax - xMin) + 1);
+    if (xDelta % 2 !== 0) {
+        xDelta += 1;
+      }
+    var yDelta = Math.ceil(Math.abs(yMax - yMin) + 1);
+    if (yDelta % 2 !== 0) {
+        yDelta += 1;
+      }
+    var totalTiles = xDelta * yDelta;
+    
+  
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+
+    var i = 0;
+  
+  
+    const downloadImage = (url) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous'; // Enable CORS if necessary
+        img.onload = () => resolve(img);
+        img.onerror = (error) => reject(error);
+        img.src = url;
+      });
+    };
+  
+    
+      for (let yi = yMin; yi > yMax - 1; yi -= 2) {
+        for (let xi = xMin; xi < xMax + 1; xi += 2) {
+
+            if (cancelLocalDownload)
+            {
+                return;
+            }
+
+          // Top-left tile of the 2x2 square
+          const url = pattern.replace('{x}', xi.toString()).replace('{y}', yi.toString()).replace('{z}', z.toString());
+          const img = await downloadImage(url);
+          
+  
+          // Tile above the top-left tile
+          const url2 = pattern.replace('{x}', xi.toString()).replace('{y}', (yi - 1).toString()).replace('{z}', z.toString());
+          const img2 = await downloadImage(url2);
+          
+  
+          // Diagonal tile of the top-left tile
+          const url3 = pattern.replace('{x}', (xi + 1).toString()).replace('{y}', (yi - 1).toString()).replace('{z}', z.toString());
+          const img3 = await downloadImage(url3);
+          
+  
+          // Tile to the right of the top-left tile
+          const url4 = pattern.replace('{x}', (xi + 1).toString()).replace('{y}', yi.toString()).replace('{z}', z.toString());
+          const img4 = await downloadImage(url4);
+
+          ctx.drawImage(img2, 0, 0, 256, 256);
+          ctx.drawImage(img, 0, 256, 256, 256);
+          ctx.drawImage(img4, 256, 256, 256, 256);
+          ctx.drawImage(img3, 256, 0, 256, 256);
+
+
+          // Download the composed image
+            const composedImage = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = composedImage;
+            link.download = String(xi) + ',' + String(yi) + ',' + String(z) + '.png';
+            link.click();
+
+
+            i += 4;
+            updateProgressBarDownload(i, totalTiles);
+        }
+    }
+
+    CancelDownload();
+};
+
 async function SetupDownload() {
     if (!selected_extent) {
       return;
@@ -597,9 +730,10 @@ async function SetupDownload() {
     settingsSidebar.style.display = 'none';
     downloadSidebar.style.display = '';
     hideGrid();
-    ContourLayer.getSource().clear();
+    //ContourLayer.getSource().clear();
     ContourLayer.setVisible(true);
     ModelProgressLayer.getSource().clear();
+   
     
 
   
@@ -618,11 +752,29 @@ async function SetupDownload() {
     var yMax = lat2tile(y1, z);
 
     var xDelta = Math.ceil(Math.abs(xMax - xMin) + 1);
+    if (xDelta % 2 !== 0) {
+        xDelta += 1;
+      }
     var yDelta = Math.ceil(Math.abs(yMax - yMin) + 1);
+    if (yDelta % 2 !== 0) {
+        yDelta += 1;
+      }
     var totalTiles = xDelta * yDelta;
 
     updateProgressBarDownload(0, totalTiles);
     updateProgressBarModel(0, totalTiles);
+
+
+    var newStyle = new Style({
+        stroke: new Stroke({
+            color: contourColorSelect.value,
+            width: 2
+        }),
+        fill: new Fill({
+            color: 'rgba(0, 0, 0, 0)'
+        })
+    });
+
 
     var pattern = encodeURIComponent(mapProviderDownloadSelect.value);
     var model = encodeURIComponent(modelSelect.value);
@@ -676,7 +828,7 @@ async function SetupDownload() {
             //console.log(res)
 
 
-            drawGridRectContours(x, y, z, res);
+            drawGridRectContours(x, y, z, res, newStyle);
             //console.log("draw: ", x, y, z);
 
             j += 1;
@@ -728,17 +880,24 @@ async function SetupDownload() {
     var progress = j / totalTiles * 100;
     progressBarFillModel.style.width = `${progress}%`;
     progressTextModel.textContent = `Processed: ${j}/${totalTiles}`;
+    
   }
 
 function CancelDownload()
 {
-    eventSource.close();
+    if (eventSource)
+    {
+        eventSource.close();
+    }
 
     settingsSidebar.style.display  = '';
     downloadSidebar.style.display = 'none';
 
     ModelProgressPolygon = null;
     ModelProgressLayer.getSource().clear();
+    highlightLayer.getSource().clear();
+
+    cancelLocalDownload = true;
 }
 
 /// xxxxxxxx    DOWNLOAD xxxxxxxx ///////
@@ -807,6 +966,29 @@ function geoSearchFunction()
     });
 }
 
+function clearContoursFunction()
+{
+    ContourLayer.getSource().clear();
+}
+
+function changeContourColor()
+{
+    //var color = contourColorSelect.value;
+    var newStyle = new Style({
+        stroke: new Stroke({
+            color: contourColorSelect.value,
+            width: 1
+        }),
+        fill: new Fill({
+            color: 'rgba(0, 0, 0, 0)'
+        })
+    });
+
+    ContourLayer.setStyle(newStyle);
+}
+
+
+
 downloadButton.addEventListener('click', SetupDownload);
 cancelDownloadButton.addEventListener('click', CancelDownload);
 showGridButton.addEventListener('click', showGrid);
@@ -814,3 +996,6 @@ hideGridButton.addEventListener('click', hideGrid);
 toggleModelProgress.addEventListener('click', toggleModelProcessLayer)
 lonLatSearch.addEventListener('click', lonLatSearchFunction)
 geoSearch.addEventListener('click', geoSearchFunction)
+clearContoursButton.addEventListener('click', clearContoursFunction)
+downloadToLocalDeviceButton.addEventListener('click', downloadToLocalDevice)
+//contourColorSelect.addEventListener('change', changeContourColor)

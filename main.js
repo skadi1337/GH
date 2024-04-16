@@ -150,7 +150,7 @@ var ContourLayer = new VectorLayer({
             width: 1
         }),
         fill: new Fill({
-            color: 'rgba(0, 0, 0, 0.5)'
+            color: 'rgba(0, 0, 0, 0)'
         })
     }),
     visible: false
@@ -764,11 +764,12 @@ async function SetupDownload() {
     updateProgressBarDownload(0, totalTiles);
     updateProgressBarModel(0, totalTiles);
 
+    //console.log(contourColorSelect.value)
 
     var newStyle = new Style({
         stroke: new Stroke({
-            color: contourColorSelect.value,
-            width: 2
+            color: contourColorSelect.value + '99',
+            width: 2,
         }),
         fill: new Fill({
             color: 'rgba(0, 0, 0, 0)'

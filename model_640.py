@@ -151,6 +151,40 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                         result_image.paste(Image.open(file_paths[10]), (512, 512))
                         result_image.paste(Image.open(file_paths[11]), (512, 256))
                         result_image.paste(Image.open(file_paths[12]), (512, 0))
+
+                        result_image = np.array(result_image)
+                        
+                        plt.imshow(result_image)
+                        plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        plt.show()
+
+                        
+                        
+                        
+                        
+                        
+                    
+
+
+                        plt.imshow(image1)
+                        plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        plt.show()
+
+                        plt.imshow(image2)
+                        plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        plt.show()
+
+                        plt.imshow(image3)
+                        plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        plt.show()
+
+                        
+
+                        time.sleep(10000)
+
+                        
+
+
                     if j == 1:
                         result_image.paste(Image.open(file_paths[2]),  (0,   512))
                         result_image.paste(Image.open(file_paths[3]),  (0,   256))
@@ -223,11 +257,41 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # 2 4
                 # 1 3 
 
-                image1 = binary_images[0][256:, :256]
-                image2 = binary_images[0][256:, 128:384]
-                image3 = binary_images[0][256:, 128:384]
-                image3[:256, :128] = binary_images[0][256:, 128:]
-                image3[:256, 128:] = binary_images[1][256:, :128]
+
+                image1 = binary_images[0][384:640, 0:256]
+                image2 = binary_images[0][128:384, 0:256]
+                image3 = binary_images[0][384:640, 0:256]
+                image3[128:256, 0:256] = binary_images[0][0:128, 0:256]
+                image3[0:128, 0:256] = binary_images[1][512:640, 0:256]
+
+
+                image4 = binary_images[0][384:640, 256:512]
+                image5 = binary_images[0][128:384, 256:512]
+                image6 = binary_images[0][384:640, 256:512]
+                image6[128:256, 0:256] = binary_images[0][0:128, 256:512]
+                image6[0:128, 0:256] = binary_images[1][512:640, 256:512]
+
+                image7 = binary_images[0][384:640, 256:512]
+                image7[0:256, 0:128] = binary_images[0][384:640, 512:640]
+                image7[0:256, 128:256] = binary_images[2][384:640, 0:128]
+                image8 = binary_images[0][128:384, 256:512]
+                image8[0:256, 0:128] = binary_images[0][128:384, 512:640]
+                image8[0:256, 128:256] = binary_images[2][128:384, 0:128]
+                image9 = binary_images[0][384:640, 256:512]
+                image9[128:256, 0:128] = binary_images[0][0:128, 512:640]
+                image9[0:128, 0:128] = binary_images[1][512:640, 512:640]
+                image9[128:256, 128:256] = binary_images[2][0:128, 0:128]
+                image9[0:128, 128:256] = binary_images[3][512:640, 0:128]
+
+
+
+
+
+                # image1 = binary_images[0][256:, :256]
+                # image2 = binary_images[0][256:, 128:384]
+                # image3 = binary_images[0][256:, 128:384]
+                # image3[:256, :128] = binary_images[0][256:, 128:]
+                # image3[:256, 128:] = binary_images[1][256:, :128]
 
                 # image4 = binary_images[0][256:512, 256:]
                 # image5 = binary_images[0][256:512, 256:512]
@@ -242,9 +306,9 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # image9[:256, 128:] = binary_images[1][257:512, :128]
 
 
-                images = [image1, image2, image3]
+                images = [image1, image2, image3, image4, image5, image6, image7, image8, image9]
 
-                for i in range(3):
+                for i in range(len(images)):
                   contours, _ = cv2.findContours(images[i], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                   smoothed_contours = contours
 

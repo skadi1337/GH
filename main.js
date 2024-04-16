@@ -150,7 +150,7 @@ var ContourLayer = new VectorLayer({
             width: 1
         }),
         fill: new Fill({
-            color: 'rgba(0, 0, 0, 0)'
+            color: 'rgba(0, 0, 0, 0.5)'
         })
     }),
     visible: false

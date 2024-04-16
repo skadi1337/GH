@@ -223,11 +223,11 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # 2 4
                 # 1 3 
 
-                # image1 = binary_images[0][256:, :256]
-                # image2 = binary_images[0][256:, 257:512]
-                # image3 = binary_images[0][256:, 257:512]
-                # image3[:256, :128] = binary_images[0][:256, 512:640]
-                # image3[:256, 128:] = binary_images[1][:256, :128]
+                image1 = binary_images[0][256:, :256]
+                image2 = binary_images[0][256:, 128:384]
+                image3 = binary_images[0][256:, 128:384]
+                image3[:256, :128] = binary_images[0][256:, 128:]
+                image3[:256, 128:] = binary_images[1][256:, :128]
 
                 # image4 = binary_images[0][256:512, 256:]
                 # image5 = binary_images[0][256:512, 256:512]
@@ -242,10 +242,10 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # image9[:256, 128:] = binary_images[1][257:512, :128]
 
 
-                #images = [image2, image1, image4, image3]
+                images = [image1, image2, image3]
 
-                for i in range(len(binary_images)):
-                  contours, _ = cv2.findContours(binary_images[i], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                for i in range(3):
+                  contours, _ = cv2.findContours(images[i], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                   smoothed_contours = contours
 
                 

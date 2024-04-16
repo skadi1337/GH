@@ -152,11 +152,11 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                         result_image.paste(Image.open(file_paths[11]), (512, 256))
                         result_image.paste(Image.open(file_paths[12]), (512, 0))
 
-                        result_image = np.array(result_image)
+                        # result_image = np.array(result_image)
                         
-                        plt.imshow(result_image)
-                        plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        plt.show()
+                        # plt.imshow(result_image)
+                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        # plt.show()
 
                         
                         
@@ -166,21 +166,21 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                     
 
 
-                        plt.imshow(image1)
-                        plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        plt.show()
+                        # plt.imshow(image1)
+                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        # plt.show()
 
-                        plt.imshow(image2)
-                        plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        plt.show()
+                        # plt.imshow(image2)
+                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        # plt.show()
 
-                        plt.imshow(image3)
-                        plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        plt.show()
+                        # plt.imshow(image3)
+                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
+                        # plt.show()
 
                         
 
-                        time.sleep(10000)
+                        # time.sleep(10000)
 
                         
 

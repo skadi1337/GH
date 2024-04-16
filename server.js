@@ -46,15 +46,15 @@ app.get('/stream', async (req, res) => {
   const { xMin, yMin, xMax, yMax, z, pattern, model } = req.query;
 
 
-  const download_process = spawn('python', [path.join(__dirname, 'downloader.py'), xMin, yMin, xMax, yMax, z, pattern]);
-  const model_process = null;
+  const download_process = spawn('python3', [path.join(__dirname, 'downloader.py'), xMin, yMin, xMax, yMax, z, pattern]);
+  model_process = null;
   if (model.startsWith('fine'))
   {
-    model_process = spawn('python', [path.join(__dirname, 'model_640.py'), xMin, yMin, xMax, yMax, z, pattern, model]);
+    model_process = spawn('python3', [path.join(__dirname, 'model_640.py'), xMin, yMin, xMax, yMax, z, pattern, model]);
   }
   else
   {
-    model_process = spawn('python', [path.join(__dirname, 'model.py'), xMin, yMin, xMax, yMax, z, pattern, model]);
+    model_process = spawn('python3', [path.join(__dirname, 'model.py'), xMin, yMin, xMax, yMax, z, pattern, model]);
   }
   
 

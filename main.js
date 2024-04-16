@@ -55,7 +55,7 @@ var models =
 {
 
     'model_v1_512.pth': 'model_v1_512.pth',
-
+    'fine_tuned_model_v1.pth': 'fine_tuned_model_v1.pth'
 }
 
 

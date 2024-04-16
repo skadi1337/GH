@@ -141,47 +141,48 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # 3 8  13 18 23
                 # 2 7  12 17 22
                 # 1 6  11 16 21
-                    if j == 1:
-                        result_image.paste(Image.open(file_paths[0]),  (0,   0  ))
+                    if j == 0:
+                        result_image.paste(Image.open(file_paths[0]),  (0,   512))
                         result_image.paste(Image.open(file_paths[1]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[2]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[5]),  (256, 0  ))
+                        result_image.paste(Image.open(file_paths[2]),  (0,   0))
+                        result_image.paste(Image.open(file_paths[5]),  (256, 512))
                         result_image.paste(Image.open(file_paths[6]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[7]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[10]), (512, 0  ))
+                        result_image.paste(Image.open(file_paths[7]),  (256, 0))
+                        result_image.paste(Image.open(file_paths[10]), (512, 512))
                         result_image.paste(Image.open(file_paths[11]), (512, 256))
-                        result_image.paste(Image.open(file_paths[12]), (512, 512))
-                    if j == 2:
-                        result_image.paste(Image.open(file_paths[2]),  (0,   0  ))
+                        result_image.paste(Image.open(file_paths[12]), (512, 0))
+                    if j == 1:
+                        result_image.paste(Image.open(file_paths[2]),  (0,   512))
                         result_image.paste(Image.open(file_paths[3]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[4]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[7]),  (256, 0  ))
+                        result_image.paste(Image.open(file_paths[4]),  (0,   0))
+                        result_image.paste(Image.open(file_paths[7]),  (256, 512))
                         result_image.paste(Image.open(file_paths[8]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[9]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[12]), (512, 0  ))
+                        result_image.paste(Image.open(file_paths[9]),  (256, 0))
+                        result_image.paste(Image.open(file_paths[12]), (512, 512))
                         result_image.paste(Image.open(file_paths[13]), (512, 256))
-                        result_image.paste(Image.open(file_paths[14]), (512, 512))
-                    if j == 3:
-                        result_image.paste(Image.open(file_paths[10]),  (0,   0  ))
+                        result_image.paste(Image.open(file_paths[14]), (512, 0))
+                    if j == 2:
+                        result_image.paste(Image.open(file_paths[10]),  (0,   512))
                         result_image.paste(Image.open(file_paths[11]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[12]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[15]),  (256, 0  ))
+                        result_image.paste(Image.open(file_paths[12]),  (0,   0))
+                        result_image.paste(Image.open(file_paths[15]),  (256, 512))
                         result_image.paste(Image.open(file_paths[16]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[17]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[20]), (512, 0  ))
+                        result_image.paste(Image.open(file_paths[17]),  (256, 0))
+                        result_image.paste(Image.open(file_paths[20]), (512, 512))
                         result_image.paste(Image.open(file_paths[21]), (512, 256))
-                        result_image.paste(Image.open(file_paths[22]), (512, 512))
-                    if j == 4:
-                        result_image.paste(Image.open(file_paths[12]),  (0,   0  ))
+                        result_image.paste(Image.open(file_paths[22]), (512, 0))
+                    if j == 3:
+                        result_image.paste(Image.open(file_paths[12]),  (0,   512))
                         result_image.paste(Image.open(file_paths[13]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[14]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[17]),  (256, 0  ))
+                        result_image.paste(Image.open(file_paths[14]),  (0,   0))
+                        result_image.paste(Image.open(file_paths[17]),  (256, 512))
                         result_image.paste(Image.open(file_paths[18]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[19]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[22]), (512, 0  ))
+                        result_image.paste(Image.open(file_paths[19]),  (256, 0))
+                        result_image.paste(Image.open(file_paths[22]), (512, 512))
                         result_image.paste(Image.open(file_paths[23]), (512, 256))
-                        result_image.paste(Image.open(file_paths[24]), (512, 512))
+                        result_image.paste(Image.open(file_paths[24]), (512, 0))
 
+                    
 
                     input_tensor = transform(result_image)
                     input_batch = input_tensor.unsqueeze(0).to(device)

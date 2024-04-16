@@ -111,7 +111,7 @@ app.get('/stream', async (req, res) => {
         //console.log(match_y[1])
 
 
-        const fileContent = fs.readFileSync(filenames[i].slice(0, -1), 'utf-8');
+        const fileContent = fs.readFileSync(filenames[i], 'utf-8');
         res.write(`data: x:${match_x[1]} y:${match_y[1]} points:${fileContent}\n\n`)
       }
       //console.log(String(data));

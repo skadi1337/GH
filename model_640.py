@@ -67,23 +67,16 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 input_files = []
                 for ji in range(5):
                     for ki in range(5):
-                       input_file = pattern.replace('{x}', str(xi + ji)).replace('{y}', str(yi + ki)).replace('{z}', str(z)) + '.png'
+                       input_file = pattern.replace('{x}', str(xi + ji)).replace('{y}', str(yi - ki)).replace('{z}', str(z)) + '.png'
                        input_files.append(input_file)
-                # input_file = pattern.replace('{x}', str(xi)).replace('{y}', str(yi)).replace('{z}', str(z)) + '.png'
-                # input_file2 = pattern.replace('{x}', str(xi)).replace('{y}', str(yi-1)).replace('{z}', str(z)) + '.png'
-                # input_file3 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi-1)).replace('{z}', str(z)) + '.png'
-                # input_file4 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi)).replace('{z}', str(z)) + '.png'
+                       
 
-                # = [input_file, input_file2, input_file3, input_file4]
                 output_files = []
 
                 for f in input_files:
                     output_files.append(model_f + "_" + f[:-3] + "txt")
 
-                # output_file = model_f + "_" + input_file[:-3] + "txt"
-                # output_file2 = model_f + "_" + input_file2[:-3] + "txt"
-                # output_file3 = model_f + "_" + input_file3[:-3] + "txt"
-                # output_file4 = model_f + "_" + input_file4[:-3] + "txt"
+
 
                 file_paths = []
                 
@@ -92,26 +85,21 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 
 
 
-                # file_path = os.path.join(source_folder_id, input_file)
                     
                 out_paths = []
                 for f in output_files:
                     out_paths.append(os.path.join(destination_folder_path, f))
 
-                # out_path = os.path.join(destination_folder_path, output_file)
+                
 
                 for f in file_paths:
                     start_time = time.time()
                     while not os.path.exists(f):
                       if time.time() - start_time >= 120:
                         exit(-120)
-                      time.sleep(1)
+                      time.sleep(0.5)
 
-                # start_time = time.time()
-                # while not os.path.exists(file_path):
-                #     if time.time() - start_time >= 120:
-                #       exit(-120)
-                #     time.sleep(1)
+                
 
                 all_exist = True
                 for path in out_paths:
@@ -140,6 +128,8 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
 
 
                 #    continue
+
+               
 
                 binary_images = []
 
@@ -193,8 +183,6 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                         result_image.paste(file_paths[24], (512, 512))
 
 
-
-
                     input_tensor = transform(result_image)
                     input_batch = input_tensor.unsqueeze(0).to(device)
 
@@ -231,11 +219,26 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                     binary_images.append(binary_image)
 
 
+                # 2 4
+                # 1 3 
 
-                # image1 = binary_image[256:, :256]
-                # image2 = binary_image[:256, :256]
-                # image3 = binary_image[:256, 256:]
-                # image4 = binary_image[256:, 256:]
+                image1 = binary_images[0][256:, :256]
+                image2 = binary_images[0][256:, 257:512]
+                image3 = binary_images[0][256:, 257:512]
+                image3[:256, :128] = binary_images[0][:256, 512:640]
+                image3[:256, 128:] = binary_images[1][:256, :128]
+
+                image4 = binary_images[0][256:512, 256:]
+                image5 = binary_images[0][256:512, 256:512]
+                image6 = binary_images[0][256:512, 256:512]
+                image6[:256, :128] = binary_images[0][256:512, 512:640]
+                image6[:256, 128:] = binary_images[1][256:512, :128]
+
+                image7 = binary_images[0][513:640, 256:]
+                image8 = binary_images[0][257:512, 257:512]
+                image9 = binary_images[0][257:512, 257:512]
+                image9[:256, :128] = binary_images[0][257:512, 513:640]
+                image9[:256, 128:] = binary_images[1][257:512, :128]
 
 
                 #images = [image2, image1, image4, image3]

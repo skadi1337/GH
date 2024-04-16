@@ -222,23 +222,23 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # 2 4
                 # 1 3 
 
-                image1 = binary_images[0][256:, :256]
-                image2 = binary_images[0][256:, 257:512]
-                image3 = binary_images[0][256:, 257:512]
-                image3[:256, :128] = binary_images[0][:256, 512:640]
-                image3[:256, 128:] = binary_images[1][:256, :128]
+                # image1 = binary_images[0][256:, :256]
+                # image2 = binary_images[0][256:, 257:512]
+                # image3 = binary_images[0][256:, 257:512]
+                # image3[:256, :128] = binary_images[0][:256, 512:640]
+                # image3[:256, 128:] = binary_images[1][:256, :128]
 
-                image4 = binary_images[0][256:512, 256:]
-                image5 = binary_images[0][256:512, 256:512]
-                image6 = binary_images[0][256:512, 256:512]
-                image6[:256, :128] = binary_images[0][256:512, 512:640]
-                image6[:256, 128:] = binary_images[1][256:512, :128]
+                # image4 = binary_images[0][256:512, 256:]
+                # image5 = binary_images[0][256:512, 256:512]
+                # image6 = binary_images[0][256:512, 256:512]
+                # image6[:256, :128] = binary_images[0][256:512, 512:640]
+                # image6[:256, 128:] = binary_images[1][256:512, :128]
 
-                image7 = binary_images[0][513:640, 256:]
-                image8 = binary_images[0][257:512, 257:512]
-                image9 = binary_images[0][257:512, 257:512]
-                image9[:256, :128] = binary_images[0][257:512, 513:640]
-                image9[:256, 128:] = binary_images[1][257:512, :128]
+                # image7 = binary_images[0][513:640, 256:]
+                # image8 = binary_images[0][257:512, 257:512]
+                # image9 = binary_images[0][257:512, 257:512]
+                # image9[:256, :128] = binary_images[0][257:512, 513:640]
+                # image9[:256, 128:] = binary_images[1][257:512, :128]
 
 
                 #images = [image2, image1, image4, image3]

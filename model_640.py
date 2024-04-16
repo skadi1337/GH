@@ -97,6 +97,7 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                     while not os.path.exists(f):
                       if time.time() - start_time >= 120:
                         exit(-120)
+                      #sys.stderr.write(f, ' unchecked\n')
                       time.sleep(0.5)
 
                 
@@ -142,81 +143,55 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 # 2 7  12 17 22
                 # 1 6  11 16 21
                     if j == 0:
-                        result_image.paste(Image.open(file_paths[0]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[1]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[2]),  (0,   0))
-                        result_image.paste(Image.open(file_paths[5]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[6]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[7]),  (256, 0))
-                        result_image.paste(Image.open(file_paths[10]), (512, 512))
-                        result_image.paste(Image.open(file_paths[11]), (512, 256))
-                        result_image.paste(Image.open(file_paths[12]), (512, 0))
+                        result_image.paste(Image.open(file_paths[0]),  (0,   384))
+                        result_image.paste(Image.open(file_paths[1]),  (0,   128))
+                        result_image.paste(Image.open(file_paths[2]).crop((0,128,256,256)),  (0,   0))
 
-                        # result_image = np.array(result_image)
-                        
-                        # plt.imshow(result_image)
-                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        # plt.show()
+                        result_image.paste(Image.open(file_paths[5]),  (256, 384))
+                        result_image.paste(Image.open(file_paths[6]),  (256, 128))
+                        result_image.paste(Image.open(file_paths[7]).crop((0,128,256,256)),  (256, 0))
 
-                        
-                        
-                        
-                        
-                        
-                    
-
-
-                        # plt.imshow(image1)
-                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        # plt.show()
-
-                        # plt.imshow(image2)
-                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        # plt.show()
-
-                        # plt.imshow(image3)
-                        # plt.axis('off')  # Optional: Turn off axis labels and ticks
-                        # plt.show()
-
-                        
-
-                        # time.sleep(10000)
-
-                        
-
+                        result_image.paste(Image.open(file_paths[10]), (512, 384))
+                        result_image.paste(Image.open(file_paths[11]), (512, 128))
+                        result_image.paste(Image.open(file_paths[12]).crop((0,128,256,256)), (512, 0))
 
                     if j == 1:
-                        result_image.paste(Image.open(file_paths[2]),  (0,   512))
+                        result_image.paste(Image.open(file_paths[2]).crop((0,0,256,128)),  (0,   512))
                         result_image.paste(Image.open(file_paths[3]),  (0,   256))
                         result_image.paste(Image.open(file_paths[4]),  (0,   0))
-                        result_image.paste(Image.open(file_paths[7]),  (256, 512))
+
+                        result_image.paste(Image.open(file_paths[7]).crop((0,0,256,128)),  (256, 512))
                         result_image.paste(Image.open(file_paths[8]),  (256, 256))
                         result_image.paste(Image.open(file_paths[9]),  (256, 0))
-                        result_image.paste(Image.open(file_paths[12]), (512, 512))
+
+                        result_image.paste(Image.open(file_paths[12]).crop((0,0,256,128)), (512, 512))
                         result_image.paste(Image.open(file_paths[13]), (512, 256))
                         result_image.paste(Image.open(file_paths[14]), (512, 0))
                     if j == 2:
-                        result_image.paste(Image.open(file_paths[10]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[11]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[12]),  (0,   0))
-                        result_image.paste(Image.open(file_paths[15]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[16]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[17]),  (256, 0))
-                        result_image.paste(Image.open(file_paths[20]), (512, 512))
-                        result_image.paste(Image.open(file_paths[21]), (512, 256))
-                        result_image.paste(Image.open(file_paths[22]), (512, 0))
-                    if j == 3:
-                        result_image.paste(Image.open(file_paths[12]),  (0,   512))
-                        result_image.paste(Image.open(file_paths[13]),  (0,   256))
-                        result_image.paste(Image.open(file_paths[14]),  (0,   0))
-                        result_image.paste(Image.open(file_paths[17]),  (256, 512))
-                        result_image.paste(Image.open(file_paths[18]),  (256, 256))
-                        result_image.paste(Image.open(file_paths[19]),  (256, 0))
-                        result_image.paste(Image.open(file_paths[22]), (512, 512))
-                        result_image.paste(Image.open(file_paths[23]), (512, 256))
-                        result_image.paste(Image.open(file_paths[24]), (512, 0))
+                        result_image.paste(Image.open(file_paths[10]).crop((128,0,256,256)),  (0,   384))
+                        result_image.paste(Image.open(file_paths[11]).crop((128,0,256,256)),  (0,   128))
+                        result_image.paste(Image.open(file_paths[12]).crop((128,128,256,256)),  (0,   0))
 
-                    
+                        result_image.paste(Image.open(file_paths[15]),  (128, 384))
+                        result_image.paste(Image.open(file_paths[16]),  (128, 128))
+                        result_image.paste(Image.open(file_paths[17]).crop((0,128,256,256)),  (128, 0))
+
+                        result_image.paste(Image.open(file_paths[20]), (384, 384))
+                        result_image.paste(Image.open(file_paths[21]), (384, 128))
+                        result_image.paste(Image.open(file_paths[22]).crop((0,128,256,256)), (384, 0))
+                    if j == 3:
+                        result_image.paste(Image.open(file_paths[12]).crop((128,0,256,128)),  (0,   512))
+                        result_image.paste(Image.open(file_paths[13]).crop((128,0,256,256)),  (0,   256))
+                        result_image.paste(Image.open(file_paths[14]).crop((128,0,256,256)),  (0,   0))
+
+                        result_image.paste(Image.open(file_paths[17]).crop((0,0,256,128)),  (128, 512))
+                        result_image.paste(Image.open(file_paths[18]),  (128, 256))
+                        result_image.paste(Image.open(file_paths[19]),  (128, 0))
+
+                        result_image.paste(Image.open(file_paths[22]).crop((0,0,256,128)), (384, 512))
+                        result_image.paste(Image.open(file_paths[23]), (384, 256))
+                        result_image.paste(Image.open(file_paths[24]), (384, 0))
+
 
                     input_tensor = transform(result_image)
                     input_batch = input_tensor.unsqueeze(0).to(device)
@@ -251,65 +226,52 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                     gray_image = cv2.cvtColor(color_seg, cv2.COLOR_BGR2GRAY)
                     _, binary_image = cv2.threshold(gray_image, 1, 255, cv2.THRESH_BINARY)
 
+
                     binary_images.append(binary_image)
 
 
-                # 2 4
-                # 1 3 
+                big_image = Image.new("L", (1280, 1280))
+                big_image.paste(Image.fromarray(binary_images[0]), (0, 640))
+                big_image.paste(Image.fromarray(binary_images[1]), (0, 0))
+                big_image.paste(Image.fromarray(binary_images[2]), (640, 640))
+                big_image.paste(Image.fromarray(binary_images[3]), (640, 0))
 
+                images = []
+                
+                images.append(big_image.crop((0,1024,256,1280)))
+                images.append(big_image.crop((0,768,256,1024)))
+                images.append(big_image.crop((0,512,256,768)))
+                images.append(big_image.crop((0,256,256,512)))
+                images.append(big_image.crop((0,0,256,256)))
 
-                image1 = binary_images[0][384:640, 0:256]
-                image2 = binary_images[0][128:384, 0:256]
-                image3 = binary_images[0][384:640, 0:256]
-                image3[128:256, 0:256] = binary_images[0][0:128, 0:256]
-                image3[0:128, 0:256] = binary_images[1][512:640, 0:256]
+                images.append(big_image.crop((256,1024,512,1280)))
+                images.append(big_image.crop((256,768, 512,1024)))
+                images.append(big_image.crop((256,512, 512,768)))
+                images.append(big_image.crop((256,256, 512,512)))
+                images.append(big_image.crop((256,0,   512,256)))
 
+                images.append(big_image.crop((512,1024,768,1280)))
+                images.append(big_image.crop((512,768, 768,1024)))
+                images.append(big_image.crop((512,512, 768,768)))
+                images.append(big_image.crop((512,256, 768,512)))
+                images.append(big_image.crop((512,0,   768,256)))
 
-                image4 = binary_images[0][384:640, 256:512]
-                image5 = binary_images[0][128:384, 256:512]
-                image6 = binary_images[0][384:640, 256:512]
-                image6[128:256, 0:256] = binary_images[0][0:128, 256:512]
-                image6[0:128, 0:256] = binary_images[1][512:640, 256:512]
+                images.append(big_image.crop((768,1024, 1024,1280)))
+                images.append(big_image.crop((768,768,  1024,1024)))
+                images.append(big_image.crop((768,512,  1024,768)))
+                images.append(big_image.crop((768,256,  1024,512)))
+                images.append(big_image.crop((768,0,    1024,256)))
 
-                image7 = binary_images[0][384:640, 256:512]
-                image7[0:256, 0:128] = binary_images[0][384:640, 512:640]
-                image7[0:256, 128:256] = binary_images[2][384:640, 0:128]
-                image8 = binary_images[0][128:384, 256:512]
-                image8[0:256, 0:128] = binary_images[0][128:384, 512:640]
-                image8[0:256, 128:256] = binary_images[2][128:384, 0:128]
-                image9 = binary_images[0][384:640, 256:512]
-                image9[128:256, 0:128] = binary_images[0][0:128, 512:640]
-                image9[0:128, 0:128] = binary_images[1][512:640, 512:640]
-                image9[128:256, 128:256] = binary_images[2][0:128, 0:128]
-                image9[0:128, 128:256] = binary_images[3][512:640, 0:128]
-
-
-
-
-
-                # image1 = binary_images[0][256:, :256]
-                # image2 = binary_images[0][256:, 128:384]
-                # image3 = binary_images[0][256:, 128:384]
-                # image3[:256, :128] = binary_images[0][256:, 128:]
-                # image3[:256, 128:] = binary_images[1][256:, :128]
-
-                # image4 = binary_images[0][256:512, 256:]
-                # image5 = binary_images[0][256:512, 256:512]
-                # image6 = binary_images[0][256:512, 256:512]
-                # image6[:256, :128] = binary_images[0][256:512, 512:640]
-                # image6[:256, 128:] = binary_images[1][256:512, :128]
-
-                # image7 = binary_images[0][513:640, 256:]
-                # image8 = binary_images[0][257:512, 257:512]
-                # image9 = binary_images[0][257:512, 257:512]
-                # image9[:256, :128] = binary_images[0][257:512, 513:640]
-                # image9[:256, 128:] = binary_images[1][257:512, :128]
-
-
-                images = [image1, image2, image3, image4, image5, image6, image7, image8, image9]
+                images.append(big_image.crop((1024,1024,1280,1280)))
+                images.append(big_image.crop((1024,768, 1280,1024)))
+                images.append(big_image.crop((1024,512, 1280,768)))
+                images.append(big_image.crop((1024,256, 1280,512)))
+                images.append(big_image.crop((1024,0,   1280,256)))
 
                 for i in range(len(images)):
-                  contours, _ = cv2.findContours(images[i], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                  image = np.array(images[i])
+                  #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                  contours, _ = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                   smoothed_contours = contours
 
                 

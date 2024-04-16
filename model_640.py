@@ -268,6 +268,9 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                       file.write(";")
                     file.close()
 
+                  print(out_paths[i])
+                  sys.stdout.flush()
+
                   # black_image = np.zeros((256, 256), dtype=np.uint8)
                   # cv2.drawContours(black_image, smoothed_contours, -1, (255, 255, 255), 2)
 
@@ -278,8 +281,7 @@ for yi in range(int(yMin), int(yMax) - 1, -5):
                 ###############################
                 #       RETURN THIS LATER     #
                 ##############################
-                #   print(out_paths[i])
-                #   sys.stdout.flush()
+                #   
 
 
 

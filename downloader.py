@@ -63,8 +63,8 @@ async def main():
             workers.append(worker_task)
 
         # Enqueue the tasks
-        for yi in range(int(yMin), int(yMax) - 1, -2):
-            for xi in range(int(xMin), int(xMax) + 1, 2):
+        for yi in range(int(yMin), int(yMax) - 1, -5):
+            for xi in range(int(xMin), int(xMax) + 1, 5):
                 # Top-left tile of the 2x2 square
                 url = pattern.replace('{x}', str(xi)).replace('{y}', str(yi)).replace('{z}', str(z))
                 await queue.put(url)

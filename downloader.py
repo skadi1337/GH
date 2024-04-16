@@ -65,21 +65,104 @@ async def main():
         # Enqueue the tasks
         for yi in range(int(yMin), int(yMax) - 1, -5):
             for xi in range(int(xMin), int(xMax) + 1, 5):
-                # Top-left tile of the 2x2 square
+                
                 url = pattern.replace('{x}', str(xi)).replace('{y}', str(yi)).replace('{z}', str(z))
                 await queue.put(url)
 
-                # Tile above the top-left tile
+                
                 url2 = pattern.replace('{x}', str(xi)).replace('{y}', str(yi-1)).replace('{z}', str(z))
                 await queue.put(url2)
 
-                # Diagonal tile of the top-left tile
-                url3 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi-1)).replace('{z}', str(z))
+                
+                url3 = pattern.replace('{x}', str(xi)).replace('{y}', str(yi-2)).replace('{z}', str(z))
                 await queue.put(url3)
 
-                # Tile to the right of the top-left tile
-                url4 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi)).replace('{z}', str(z))
+                
+                url4 = pattern.replace('{x}', str(xi)).replace('{y}', str(yi-3)).replace('{z}', str(z))
                 await queue.put(url4)
+
+
+                url5 = pattern.replace('{x}', str(xi)).replace('{y}', str(yi-4)).replace('{z}', str(z))
+                await queue.put(url5)
+
+                url6 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi)).replace('{z}', str(z))
+                await queue.put(url6)
+
+                
+                url7 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi-1)).replace('{z}', str(z))
+                await queue.put(url7)
+
+                
+                url8 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi-2)).replace('{z}', str(z))
+                await queue.put(url8)
+
+                
+                url9 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi-3)).replace('{z}', str(z))
+                await queue.put(url9)
+
+
+                url10 = pattern.replace('{x}', str(xi+1)).replace('{y}', str(yi-4)).replace('{z}', str(z))
+                await queue.put(url10)
+
+                url11 = pattern.replace('{x}', str(xi+2)).replace('{y}', str(yi)).replace('{z}', str(z))
+                await queue.put(url11)
+
+                
+                url12 = pattern.replace('{x}', str(xi+2)).replace('{y}', str(yi-1)).replace('{z}', str(z))
+                await queue.put(url12)
+
+                
+                url13 = pattern.replace('{x}', str(xi+2)).replace('{y}', str(yi-2)).replace('{z}', str(z))
+                await queue.put(url13)
+
+                
+                url14 = pattern.replace('{x}', str(xi+2)).replace('{y}', str(yi-3)).replace('{z}', str(z))
+                await queue.put(url14)
+
+
+                url15 = pattern.replace('{x}', str(xi+2)).replace('{y}', str(yi-4)).replace('{z}', str(z))
+                await queue.put(url15)
+
+                url16 = pattern.replace('{x}', str(xi+3)).replace('{y}', str(yi)).replace('{z}', str(z))
+                await queue.put(url16)
+
+                
+                url17 = pattern.replace('{x}', str(xi+3)).replace('{y}', str(yi-1)).replace('{z}', str(z))
+                await queue.put(url17)
+
+                
+                url18 = pattern.replace('{x}', str(xi+3)).replace('{y}', str(yi-2)).replace('{z}', str(z))
+                await queue.put(url18)
+
+                
+                url19 = pattern.replace('{x}', str(xi+3)).replace('{y}', str(yi-3)).replace('{z}', str(z))
+                await queue.put(url19)
+
+
+                url20 = pattern.replace('{x}', str(xi+3)).replace('{y}', str(yi-4)).replace('{z}', str(z))
+                await queue.put(url20)
+
+                url21 = pattern.replace('{x}', str(xi+4)).replace('{y}', str(yi)).replace('{z}', str(z))
+                await queue.put(url21)
+
+                
+                url22 = pattern.replace('{x}', str(xi+4)).replace('{y}', str(yi-1)).replace('{z}', str(z))
+                await queue.put(url22)
+
+                
+                url23 = pattern.replace('{x}', str(xi+4)).replace('{y}', str(yi-2)).replace('{z}', str(z))
+                await queue.put(url23)
+
+                
+                url24 = pattern.replace('{x}', str(xi+4)).replace('{y}', str(yi-3)).replace('{z}', str(z))
+                await queue.put(url24)
+
+
+                url25 = pattern.replace('{x}', str(xi+4)).replace('{y}', str(yi-4)).replace('{z}', str(z))
+                await queue.put(url25)
+
+
+
 
                 
         await queue.join()

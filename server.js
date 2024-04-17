@@ -48,7 +48,7 @@ app.get('/stream', async (req, res) => {
 
   const download_process = spawn('python3', [path.join(__dirname, 'downloader.py'), xMin, yMin, xMax, yMax, z, pattern]);
   model_process = null;
-  if (model.startsWith('fine'))
+  if (model.endsWith('640.pth'))
   {
     model_process = spawn('python3', [path.join(__dirname, 'model_640.py'), xMin, yMin, xMax, yMax, z, pattern, model]);
   }

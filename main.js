@@ -55,7 +55,9 @@ var models =
 {
 
     'model_v1_512.pth': 'model_v1_512.pth',
-    'fine_tuned_model_v1.pth': 'fine_tuned_model_v1.pth'
+    'model_v1_640.pth': 'model_v1_640.pth',
+    'netherland_v1_640.pth': 'netherland_v1_640.pth',
+    'turkey_v1_640.pth': 'turkey_v1_640.pth'
 }
 
 

@@ -94,6 +94,7 @@ const lonLatSearch = document.getElementById('LonLatSearch');
 const geoInput = document.getElementById('geoInput');
 const geoSearch = document.getElementById('geoSearch');
 
+const hideContoursButton = document.getElementById('hideContoursButton');
 const clearContoursButton = document.getElementById('clearContoursButton');
 const contourColorSelect = document.getElementById('contourColorSelect');
 const coordinatesLabel = document.getElementById('coordinatesLabel');
@@ -770,7 +771,7 @@ async function SetupDownload() {
 
     var newStyle = new Style({
         stroke: new Stroke({
-            color: contourColorSelect.value + '99',
+            color: contourColorSelect.value, //+ '99',
             width: 2,
         }),
         fill: new Fill({
@@ -969,6 +970,11 @@ function geoSearchFunction()
     });
 }
 
+function hideContoursFunction()
+{
+    ContourLayer.setVisible(!ContourLayer.getVisible());
+}
+
 function clearContoursFunction()
 {
     ContourLayer.getSource().clear();
@@ -1000,5 +1006,6 @@ toggleModelProgress.addEventListener('click', toggleModelProcessLayer)
 lonLatSearch.addEventListener('click', lonLatSearchFunction)
 geoSearch.addEventListener('click', geoSearchFunction)
 clearContoursButton.addEventListener('click', clearContoursFunction)
+hideContoursButton.addEventListener('click', hideContoursFunction)
 downloadToLocalDeviceButton.addEventListener('click', downloadToLocalDevice)
 //contourColorSelect.addEventListener('change', changeContourColor)

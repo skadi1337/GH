@@ -2,3 +2,5 @@ models/fine_tuned_model_v1.pth
 models/model_v1_640.pth
 models/netherland_v1_640.pth
 models/turkey_v1_640.pth
+downloads/*
+outputs/*

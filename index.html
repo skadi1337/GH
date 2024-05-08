@@ -32,8 +32,9 @@
             <p style="margin: 0;">- Find address</p>
             <input type="text" id="geoInput" style="width: 80%;">
             <button id="geoSearch">search</button>
-            <label id="coordinatesLabel"style="margin: 0;">- Map center coodinates: </label>
-            <p style="font-size: large; margin-top: 15px;">Hold alt and drag to select area</p>
+            <!-- <label id="coordinatesLabel"style="margin: 0;">- Map center coodinates: </label> -->
+            <p style="font-size: large; margin-top: 13px; margin-bottom: 0px;">--- Hold alt and drag to select area</p>
+            <p style="font-size: large; margin-bottom: 0px;">--- Single click to see coordinates</p>
           </div>
     
           <div class="form-group">
@@ -113,7 +114,12 @@
 
         
     
-      </div>
+    </div>
+  
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div>
 
     <script type="module" src="./main.js"></script>
 </body>

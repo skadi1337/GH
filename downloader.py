@@ -17,6 +17,7 @@ async def download_file(session, url):
     file_url = url
     file_name = os.path.basename(file_url) + ".png"
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloads", file_name)
+    #file_path = os.path.join("/data", "downloads", file_name)
 
     if os.path.exists(file_path):
         return

@@ -32,6 +32,9 @@ model_file = os.path.join(os.getcwd(), 'models', model_f)
 source_folder_id = os.path.join(os.getcwd(), 'downloads')
 destination_folder_path = os.path.join(os.getcwd(), 'outputs')
 
+# source_folder_id = os.path.join("/data", 'downloads')
+# destination_folder_path = os.path.join("/data", 'outputs')
+
 
 model_checkpoint = "nvidia/segformer-b0-finetuned-ade-512-512"
 id2label = {0: "background", 1: "greenhouse"}

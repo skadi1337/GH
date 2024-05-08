@@ -15,6 +15,9 @@ import {fromLonLat, get as getProj} from './node_modules/ol/proj.js'
 import { getTopRight, getBottomLeft } from './node_modules/ol/extent.js'
 import { useGeographic, toLonLat } from './node_modules/ol/proj.js';
 import XYZ from './node_modules/ol/source/XYZ.js';
+import Overlay from './node_modules/ol/Overlay.js';
+import {toStringHDMS} from './node_modules/ol/coordinate.js';
+
 
 
 useGeographic();
@@ -97,8 +100,30 @@ const geoSearch = document.getElementById('geoSearch');
 const hideContoursButton = document.getElementById('hideContoursButton');
 const clearContoursButton = document.getElementById('clearContoursButton');
 const contourColorSelect = document.getElementById('contourColorSelect');
-const coordinatesLabel = document.getElementById('coordinatesLabel');
+// const coordinatesLabel = document.getElementById('coordinatesLabel');
 const downloadToLocalDeviceButton = document.getElementById('downloadToLocalDeviceButton');
+
+
+const Popupcontainer = document.getElementById('popup');
+const Popupcontent = document.getElementById('popup-content');
+const Popupcloser = document.getElementById('popup-closer');
+
+const overlay = new Overlay({
+    element: Popupcontainer,
+    autoPan: {
+      animation: {
+        duration: 250,
+      },
+    },
+});
+
+Popupcloser.onclick = function () {
+    overlay.setPosition(undefined);
+    Popupcloser.blur();
+    return false;
+};
+
+
 
 var cancelLocalDownload = false;
 
@@ -181,10 +206,36 @@ const view = new View({
 
 const map2 = new Map({
     target: 'aerialMap',
+    overlays: [overlay],
     layers: [googleSatelliteLayer],
     view: view,
 });
 
+map2.on('singleclick', function (evt) {
+    const coordinate = evt.coordinate;
+  
+    Popupcontent.innerHTML = '<p>You clicked here:</p><code>' + coordinate[1] + ',' + coordinate[0] + '</code><p></p><p>Address: loading...</p>';
+    overlay.setPosition(coordinate);
+
+    getAddressFromCoordinates(coordinate[1], coordinate[0])
+    .then(address => {
+        Popupcontent.innerHTML = '<p>You clicked here:</p><code>' + coordinate[1] + ',' + coordinate[0] + '</code><p></p><p>' + address + '</p>';
+
+        // Add the button to open location on Google Maps
+        const googleMapsButton = document.createElement('button');
+        googleMapsButton.innerText = 'Open on Google Maps';
+        googleMapsButton.addEventListener('click', function() {
+            const googleMapsUrl = 'http://maps.google.com/maps?t=k&z=18&q=loc:' + coordinate[1] + '+' + coordinate[0];
+            window.open(googleMapsUrl, '_blank');
+        });
+        Popupcontent.appendChild(googleMapsButton);
+    })
+    .catch(error => {
+        Popupcontent.innerHTML = '<p>You clicked here:</p><code>' + coordinate[1] + ',' + coordinate[0] + '</code><p></p><p>Address: underfined</p>';
+    });
+
+    getCompaniesFromCoordinates(coordinate[1], coordinate[0]);
+});
 
 var selection2 = new DragBox({
     condition: altKeyOnly,
@@ -198,7 +249,7 @@ map2.addLayer(ContourLayer);
 map2.addLayer(ModelProgressLayer);
 
 
-view.on('change:center', showCoordinates);
+// view.on('change:center', showCoordinates);
 
 
 selection2.on('boxend', function (event) {
@@ -232,12 +283,12 @@ selection2.on('boxend', function (event) {
 
 });
 
-showCoordinates();
-function showCoordinates()
-{
-    var center = view.getCenter();
-    coordinatesLabel.innerHTML = '- Map center coodinates: ' + center[1].toFixed(7) + ', ' + center[0].toFixed(7);
-}
+// showCoordinates();
+// function showCoordinates()
+// {
+//     var center = view.getCenter();
+//     coordinatesLabel.innerHTML = '- Map center coodinates: ' + center[1].toFixed(7) + ', ' + center[0].toFixed(7);
+// }
 
 setUpModelSelect();
 function setUpModelSelect()
@@ -937,7 +988,58 @@ function lonLatSearchFunction()
     var lon = parseFloat(parts[1])
 
     var view = map2.getView();
-    view.setCenter([lon, lat])
+    view.setCenter([lon, lat]);
+
+    if (view.getZoom() < 7)
+        {
+            view.setZoom(7);
+        }
+}
+
+function getCompaniesFromCoordinates(latitude, longitude)
+{
+    const apiEndpoint = 'https://nominatim.openstreetmap.org/search';
+
+    const params = new URLSearchParams({
+        format: 'json',
+        lat: latitude,
+        lon: longitude,
+        type: 'company', // Filter for companies
+        radius: 1000, // Search radius in meters
+      });
+
+    const url = `${apiEndpoint}?${params.toString()}`;
+  
+
+
+    return fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+
+        const nearestCompany = data[0];
+        console.log(data);
+        console.log(nearestCompany.display_name);
+      } else {
+        throw new Error('Address not found');
+      }
+    });
+}
+
+function getAddressFromCoordinates(latitude, longitude) {
+    const baseUrl = 'https://nominatim.openstreetmap.org/search';
+    const url = `${baseUrl}?format=jsonv2&q=${latitude},${longitude}`;
+  
+    return fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        const address = data[0].display_name;
+        return address;
+      } else {
+        throw new Error('Address not found');
+      }
+    });
 }
 
 function geoSearchFunction()
@@ -965,7 +1067,7 @@ function geoSearchFunction()
       }
     })
     .catch(error => {
-      //console.error('Geocoding failed:', error);
+      console.error('Geocoding failed:', error);
       callback(null);
     });
 }

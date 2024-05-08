@@ -13,10 +13,13 @@ z = int(sys.argv[5])
 pattern = sys.argv[6]
 max_concurrent_tasks = 100  # Maximum number of concurrent tasks
 
+source_folder_id = os.path.join(os.getcwd(), 'downloads')
+#source_folder_id = os.path.join("/data", 'downloads')
+
 async def download_file(session, url):
     file_url = url
     file_name = os.path.basename(file_url) + ".png"
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloads", file_name)
+    file_path = os.path.join(source_folder_id, file_name)
     #file_path = os.path.join("/data", "downloads", file_name)
 
     if os.path.exists(file_path):
@@ -54,6 +57,11 @@ async def worker(session, queue):
 
 
 async def main():
+
+    if not os.path.exists(source_folder_id):
+        os.makedirs(source_folder_id)
+
+
     queue = asyncio.Queue(maxsize=max_concurrent_tasks)
 
     async with aiohttp.ClientSession() as session:

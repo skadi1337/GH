@@ -32,8 +32,8 @@ model_file = os.path.join(os.getcwd(), 'models', model_f)
 source_folder_id = os.path.join(os.getcwd(), 'downloads')
 destination_folder_path = os.path.join(os.getcwd(), 'outputs')
 
-# source_folder_id = os.path.join("/data", 'downloads')
-# destination_folder_path = os.path.join("/data", 'outputs')
+#source_folder_id = os.path.join("/data", 'downloads')
+#destination_folder_path = os.path.join("/data", 'outputs')
 
 if not os.path.exists(source_folder_id):
         os.makedirs(source_folder_id)
